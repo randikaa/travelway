@@ -10,36 +10,37 @@ const carouselSlides = [
     id: 1,
     title: "Discover Paradise",
     subtitle: "Explore the most beautiful destinations in the world",
-    videoUrl: "https://cdn.jsdelivr.net/gh/Team-Hologram/trsm/1.mp4",
-    color: "from-orange-500 to-rose-500",
+    primaryButton: "Explore Now",
+    secondaryButton: "Learn More",
   },
   {
     id: 2,
     title: "Adventure Awaits",
     subtitle: "Experience thrilling journeys and unforgettable moments",
-    videoUrl: "https://cdn.jsdelivr.net/gh/Team-Hologram/trsm/2.mp4",
-    color: "from-amber-500 to-orange-500",
+    primaryButton: "Start Your Journey",
+    secondaryButton: "View Packages",
   },
   {
     id: 3,
     title: "Cultural Immersion",
     subtitle: "Connect with vibrant cultures and local traditions",
-    videoUrl: "https://cdn.jsdelivr.net/gh/Team-Hologram/trsm/3.mp4",
-    color: "from-teal-500 to-blue-500",
+    primaryButton: "Discover Culture",
+    secondaryButton: "See Destinations",
   },
   {
     id: 4,
     title: "Luxury Getaway",
     subtitle: "Indulge in world-class resorts and exclusive experiences",
-    videoUrl: "https://cdn.jsdelivr.net/gh/Team-Hologram/trsm/4.mp4",
-    color: "from-purple-500 to-pink-500",
+    primaryButton: "Book Luxury",
+    secondaryButton: "View Resorts",
   },
 ]
+
+const BACKGROUND_VIDEO = "https://cdn.jsdelivr.net/gh/Team-Hologram/trsm/sea.mp4"
 
 export function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [autoPlay, setAutoPlay] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null)
   const titleRef = useRef(null)
   const subtitleRef = useRef(null)
   const buttonsRef = useRef(null)
@@ -123,21 +124,15 @@ export function HeroCarousel() {
 
   return (
     <section id="hero" className="relative h-screen overflow-hidden">
+      {/* Static Background Video */}
       <video
-        ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        key={`video-${slide.id}`}
         className="absolute inset-0 w-full h-full object-cover"
-        onCanPlay={() => {
-          if (videoRef.current) {
-            videoRef.current.currentTime = 0
-          }
-        }}
       >
-        <source src={slide.videoUrl} type="video/mp4" />
+        <source src={BACKGROUND_VIDEO} type="video/mp4" />
       </video>
 
       {/* Overlay */}
@@ -159,11 +154,11 @@ export function HeroCarousel() {
           {/* Buttons */}
           <div ref={buttonsRef} className="flex gap-4 justify-center opacity-0 flex-wrap">
             <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Explore Now
+              {slide.primaryButton}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 bg-transparent">
-              Learn More
+              {slide.secondaryButton}
             </Button>
           </div>
         </div>
@@ -193,9 +188,8 @@ export function HeroCarousel() {
               setCurrentSlide(index)
               setAutoPlay(true)
             }}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentSlide ? "bg-white w-8" : "bg-white/50 hover:bg-white/75"
-            }`}
+            className={`w-3 h-3 rounded-full transition-all ${index === currentSlide ? "bg-white w-8" : "bg-white/50 hover:bg-white/75"
+              }`}
           />
         ))}
       </div>
